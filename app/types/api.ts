@@ -8,6 +8,12 @@ export interface iUser extends Document {
   createdAt: Date;
   updatedAt: Date;
 }
+export interface iBooks extends Document {
+  title: string;
+  author: string;
+  year: number;
+  genre: string;
+}
 
 export type MongooseCache = {
   conn: typeof mongoose | null;

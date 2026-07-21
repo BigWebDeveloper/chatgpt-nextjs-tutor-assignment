@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 
 export async function POST(request: Request) {
   const body = await request.json();
-  const { name, email, password } = body;
+  const { name, email, password, role } = body;
   const missing = ["name", "email", "password"].filter((field) => !body[field]);
 
   if (missing.length > 0) {
@@ -31,12 +31,18 @@ export async function POST(request: Request) {
     name,
     email,
     password: hashedPassword,
+    role,
   });
 
   return Response.json(
     {
       message: "User registered successfully",
-      user: { id: user._id, name: user.name, email: user.email },
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
     },
     { status: 201 },
   );
