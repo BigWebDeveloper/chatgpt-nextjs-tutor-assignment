@@ -1,14 +1,6 @@
-import User from "@/app/models/User";
+import Product from "@/app/models/Product";
 import { connectDB } from "@/app/lib/mongodb";
 import mongoose from "mongoose";
-
-// export async function GET(
-//   request: Request,
-//   { params }: { params: Promise<{ id: string }> },
-// ) {
-//   const { id } = await params;
-//   return Response.json({ message: "User found", id: id });
-// }
 
 export async function GET(
   request: Request,
@@ -21,9 +13,9 @@ export async function GET(
     return Response.json({ error: "Invalid User ID format" }, { status: 400 });
   }
 
-  const user = await User.findById(id);
+  const product = await Product.findById(id);
 
-  if (!user) {
+  if (!product) {
     return Response.json(
       {
         error: "User not found",
@@ -33,9 +25,8 @@ export async function GET(
       },
     );
   }
-  return Response.json(user);
+  return Response.json(product);
 }
-
 export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> },
@@ -48,12 +39,12 @@ export async function PATCH(
     return Response.json({ error: "Invalid User ID format" }, { status: 400 });
   }
 
-  const updatedUser = await User.findByIdAndUpdate(id, body, {
+  const updatedProduct = await Product.findByIdAndUpdate(id, body, {
     returnDocument: "after",
     runValidators: true,
   });
 
-  if (!updatedUser) {
+  if (!updatedProduct) {
     return Response.json(
       {
         error: "User not found",
@@ -66,7 +57,7 @@ export async function PATCH(
 
   return Response.json({
     message: `User ${id} updated successfully`,
-    updatedData: updatedUser,
+    updatedData: updatedProduct,
   });
 }
 
@@ -81,9 +72,9 @@ export async function DELETE(
     return Response.json({ error: "Invalid User ID format" }, { status: 400 });
   }
 
-  const deletedUser = await User.findByIdAndDelete(id);
+  const updatedProduct = await Product.findByIdAndDelete(id);
 
-  if (!deletedUser) {
+  if (!updatedProduct) {
     return Response.json(
       {
         error: "User not found",
