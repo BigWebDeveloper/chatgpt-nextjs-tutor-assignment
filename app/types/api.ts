@@ -23,3 +23,9 @@ export type MongooseCache = {
 export type GlobalWithMongoose = typeof globalThis & {
   mongoose?: MongooseCache;
 };
+
+interface JWTPayload {
+  userId: string;
+  email: string;
+  role?: string;
+}

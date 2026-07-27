@@ -1,24 +1,24 @@
-// lib/jwt.ts
-import jwt from "jsonwebtoken";
+import jwt, { SignOptions } from "jsonwebtoken";
 
-interface JWTPayload {
+const JWT_SECRET = process.env.JWT_SECRET;
+
+if (!JWT_SECRET) {
+  throw new Error("Please define JWT_SECRET in .env.local");
+}
+
+export interface AuthPayload {
   userId: string;
   email: string;
   role?: string;
 }
 
-export function generateToken(user: {
-  _id: string;
-  email: string;
-  role?: string;
-}): string {
-  const payload: JWTPayload = {
-    userId: user._id,
-    email: user.email,
-    role: user.role,
-  };
+const config = {
+  jwtSecret: JWT_SECRET,
+  jwtExpiresIn: "7d" as SignOptions["expiresIn"],
+};
 
-  return jwt.sign(payload, process.env.JWT_SECRET!, {
-    expiresIn: "7d",
+export function generateToken(payload: AuthPayload): string {
+  return jwt.sign(payload, config.jwtSecret, {
+    expiresIn: config.jwtExpiresIn,
   });
 }
