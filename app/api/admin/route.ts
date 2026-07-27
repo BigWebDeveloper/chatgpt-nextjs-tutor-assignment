@@ -1,4 +1,5 @@
 import { connectDB } from "@/app/lib/mongodb";
+import User from "@/app/models/User";
 import jwt from "jsonwebtoken";
 
 export async function GET(request: Request) {
@@ -20,9 +21,9 @@ export async function GET(request: Request) {
     if (role !== "admin") {
       return Response.json({ error: "Forbidden" }, { status: 403 });
     }
-
+    const allUser = await User.find();
     return Response.json(
-      { message: "Welcome!", user: decoded },
+      { message: "Welcome!", users: allUser },
       { status: 201 },
     );
   } catch {
