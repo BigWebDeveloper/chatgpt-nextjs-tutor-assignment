@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import ThemeToggle from "@/app/template/ThemeToggle";
 import { usePathname } from "next/navigation";
-import { Home, PlusCircle } from "lucide-react";
+import { Home, PlusCircle, UserRoundPen } from "lucide-react";
 
 const navItems = [
   { label: "Home", icon: Home, href: "/" },
+  { label: "Register", icon: UserRoundPen, href: "/register" },
   { label: "Song Upload", icon: PlusCircle, href: "/songs/new" },
 ];
 
@@ -17,13 +19,18 @@ export default function Sidebar() {
       {/* Top Section: Brand & Nav */}
       <div className="flex flex-col gap-6">
         {/* Brand Logo */}
-        <div className="flex items-center gap-3 px-2 pt-2">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-600 font-bold text-white">
-            B
+        <div className="flex justify-between items-center">
+          <div className="flex items-center gap-3 px-2 pt-2">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-600 font-bold text-white">
+              B
+            </div>
+            <span className="text-lg font-bold tracking-tight text-white">
+              Backend
+            </span>
           </div>
-          <span className="text-lg font-bold tracking-tight text-white">
-            Backend Tutor
-          </span>
+          <div className="px-2 pt-2">
+            <ThemeToggle />
+          </div>
         </div>
 
         {/* Navigation Links */}
