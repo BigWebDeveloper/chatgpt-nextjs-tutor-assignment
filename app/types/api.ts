@@ -8,6 +8,14 @@ export interface iUser extends Document {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface iSong extends Document {
+  title: string;
+  artist: string;
+  coverImage: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
 export interface iBooks extends Document {
   title: string;
   author: string;

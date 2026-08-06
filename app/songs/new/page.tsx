@@ -1,9 +1,9 @@
 import React from "react";
-
+import { MusicUploadForm } from "@/app/components/MusicUploadForm";
 const page = () => {
   return (
     <div className="flex content-center items-center justify-center h-full">
-      <h1 className="text-6xl font-black text-black">Home</h1>
+      <MusicUploadForm />
     </div>
   );
 };
