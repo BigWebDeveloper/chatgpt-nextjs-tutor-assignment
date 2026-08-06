@@ -2,15 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Music, Disc, Heart, PlusCircle, Settings } from "lucide-react";
+import { Home, PlusCircle } from "lucide-react";
 
 const navItems = [
   { label: "Home", icon: Home, href: "/" },
-  { label: "Songs", icon: Music, href: "/songs" },
-  { label: "Add Song", icon: PlusCircle, href: "/songs/new" },
-  { label: "Albums", icon: Disc, href: "/albums" },
-  { label: "Favorites", icon: Heart, href: "/favorites" },
-  { label: "Settings", icon: Settings, href: "/settings" },
+  { label: "Song Upload", icon: PlusCircle, href: "/songs/new" },
 ];
 
 export default function Sidebar() {
@@ -23,10 +19,10 @@ export default function Sidebar() {
         {/* Brand Logo */}
         <div className="flex items-center gap-3 px-2 pt-2">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-600 font-bold text-white">
-            M
+            B
           </div>
           <span className="text-lg font-bold tracking-tight text-white">
-            MusicApp
+            Backend Tutor
           </span>
         </div>
 
@@ -59,8 +55,12 @@ export default function Sidebar() {
         <div className="flex items-center gap-3">
           <div className="h-8 w-8 rounded-full bg-slate-700" />
           <div className="flex flex-col">
-            <span className="text-xs font-medium text-white">User Account</span>
-            <span className="text-[10px] text-slate-400">user@example.com</span>
+            <span className="text-xs font-medium text-white">
+              Bigweb Developer
+            </span>
+            <span className="text-[10px] text-slate-400">
+              bigweb.developer@gmail.com
+            </span>
           </div>
         </div>
       </div>
