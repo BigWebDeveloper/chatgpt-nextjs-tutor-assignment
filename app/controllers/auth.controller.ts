@@ -1,11 +1,24 @@
 import User from "@/app/models/User";
 import { connectDB } from "@/app/lib/mongodb";
 import bcrypt from "bcryptjs";
+import { registerSchema } from "../lib/validations/auth";
 
 export async function registerUser(request: Request) {
   const body = await request.json();
-
+  const bodyValidate = registerSchema.safeParse(body);
   const { name, email, password, role } = body;
+
+  if (!bodyValidate.success) {
+    return Response.json(
+      {
+        error: "Bad Request",
+        message: bodyValidate.error.flatten(),
+      },
+      {
+        status: 400,
+      },
+    );
+  }
 
   const missing = ["name", "email", "password"].filter((field) => !body[field]);
 

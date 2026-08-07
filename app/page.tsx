@@ -1,11 +1,14 @@
 import React from "react";
-import UploadTest from "./components/UploadTest";
 
 const page = () => {
   return (
-    <div className="flex justify-center items-center h-lvh flex-col gap-10">
-      <h1 className="text-6xl font-black">Home</h1>
-      <UploadTest />
+    <div className="flex content-center flex-col items-center justify-center gap-3 h-full">
+      <h1 className="text-6xl font-black text-black">
+        Welcome to Backend Tutor
+      </h1>
+      <h2 className="text-xl text-slate-400">
+        where you learn backend development using Next.js
+      </h2>
     </div>
   );
 };
