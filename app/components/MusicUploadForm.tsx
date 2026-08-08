@@ -2,6 +2,7 @@
 
 import { useState, ChangeEvent, SubmitEvent } from "react";
 import { useFormSubmit } from "@/app/hooks/useFormSubmit";
+import FormInput from "@/app/ui/FormInput";
 import Image from "next/image";
 
 export function MusicUploadForm() {
@@ -22,9 +23,11 @@ export function MusicUploadForm() {
   };
 
   return (
-    <div className="mx-auto sm:w-80 rounded-lg border bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-950">
-      <h1 className="text-2xl font-bold dark:text-white">Upload Music</h1>
-      <p className="mb-6 text-gray-600 dark:text-gray-400">
+    <div className="sm:max-w-md w-11/12 rounded-2xl bg-white p-6 shadow-xl ">
+      <h1 className="mb-2 text-center text-3xl font-bold">Upload Music</h1>
+
+      <p className="mb-8 text-center text-gray-500">
+        {" "}
         Share your track with us
       </p>
 
@@ -77,40 +80,14 @@ export function MusicUploadForm() {
           </p>
         )}
 
-        <button type="submit" disabled={isLoading} className="w-full">
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="w-full rounded-lg bg-black py-3 font-semibold text-white transition hover:bg-gray-800"
+        >
           {isLoading ? "Uploading..." : "Upload Music"}
         </button>
       </form>
-    </div>
-  );
-}
-
-/* Helper Reusable Sub-component for Inputs */
-function FormInput({
-  id,
-  label,
-  placeholder,
-}: {
-  id: string;
-  label: string;
-  placeholder: string;
-}) {
-  return (
-    <div>
-      <label
-        htmlFor={id}
-        className="mb-2 block text-sm font-medium dark:text-gray-300"
-      >
-        {label}
-      </label>
-      <input
-        id={id}
-        name={id}
-        type="text"
-        required
-        placeholder={placeholder}
-        className="w-full rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white"
-      />
     </div>
   );
 }

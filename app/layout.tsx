@@ -32,12 +32,12 @@ export default function RootLayout({
       <body className="flex min-h-full bg-slate-900 text-slate-100">
         {/* 1. Sidebar Container */}
         <StoreProvider>
-          <aside className="w-64 border-r border-slate-800 bg-slate-950 p-4 shrink-0">
+          <aside className="w-64 border-r dark:bg-black bg-white border-slate-800 p-4 shrink-0">
             <Sidebar />
           </aside>
 
           {/* 2. Main Content Container */}
-          <main className="flex-1 flex flex-col bg-white min-w-0 overflow-y-auto h-lhv">
+          <main className="flex-1 flex flex-col dark:bg-slate-800 bg-dark/10  min-w-0 overflow-y-auto h-lhv">
             {children}
           </main>
         </StoreProvider>
