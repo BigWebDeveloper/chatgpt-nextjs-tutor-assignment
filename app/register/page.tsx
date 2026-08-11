@@ -1,19 +1,35 @@
 "use client";
-import { useState, ChangeEvent, SubmitEvent } from "react";
+
+import { SubmitEvent, useState } from "react";
 import { useFormSubmit } from "@/app/hooks/useFormSubmit";
 import FormInput from "@/app/ui/FormInput";
+import { Link } from "lucide-react";
 
 const RegisterPage = () => {
-  const [preview, setPreview] = useState<string | null>(null);
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
   const { handleSubmit, isLoading, error, success } =
     useFormSubmit("/api/register");
 
+  const passwordsMatch = password === confirmPassword && confirmPassword !== "";
+
   const onSubmit = (e: SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!passwordsMatch) {
+      return;
+    }
+
+    const form = e.currentTarget;
+
     handleSubmit(e, () => {
-      setPreview(null);
-      e.currentTarget.reset();
+      form.reset();
+      setPassword("");
+      setConfirmPassword("");
     });
   };
+
   return (
     <div className="flex items-center  justify-center h-screen">
       <div className=" sm:max-w-md w-11/12 rounded-2xl bg-white p-8 shadow-xl">
@@ -21,46 +37,77 @@ const RegisterPage = () => {
 
         <p className="mb-8 text-center text-gray-500">Register a new account</p>
 
-        <form className="space-y-5">
+        <form className="space-y-5" onSubmit={onSubmit}>
           <FormInput
             id="name"
+            type="text"
             label="Full Name"
             placeholder="Enter your full name"
+            required
           />
 
           <FormInput
             id="email"
+            type="email"
             label="Email Address"
             placeholder="Enter your email"
+            required
           />
 
           <FormInput
             id="password"
+            type="password"
             label="Password"
             placeholder="Enter your password"
-            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
           />
 
           <FormInput
             id="confirmPassword"
+            type="password"
             label="Confirm Password"
             placeholder="Confirm your password"
-            type="password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            error={
+              confirmPassword && !passwordsMatch
+                ? "Passwords do not match"
+                : undefined
+            }
+            required
           />
+
+          {error && (
+            <p className="rounded-md bg-red-50 p-3 text-sm text-red-600 dark:bg-red-950">
+              {error}
+            </p>
+          )}
+
+          {success && (
+            <p className="rounded-md bg-green-50 p-3 text-sm text-green-600 dark:bg-green-950">
+              ✓ Account created successfully!
+            </p>
+          )}
 
           <button
             type="submit"
-            className="w-full rounded-lg bg-black py-3 font-semibold text-white transition hover:bg-gray-800"
+            disabled={isLoading}
+            className="w-full rounded-lg bg-black py-3 font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            Create Account
+            {isLoading ? "Creating Account..." : "Create Account"}
           </button>
         </form>
 
         <p className="mt-6 text-center text-sm text-gray-500">
           Already have an account?{" "}
-          <a href="/login" className="font-semibold text-black hover:underline">
+          <Link
+            href="/login"
+            className="font-semibold text-black hover:underline"
+          >
             Login
-          </a>
+          </Link>
         </p>
       </div>
     </div>

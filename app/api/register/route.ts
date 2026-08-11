@@ -1,5 +1,5 @@
 import { handleError } from "@/app/lib/error-handler";
-import { registerUser } from "@/app/controllers/auth.controller";
+import { registerUser } from "@/app/controllers/registerUserController";
 
 export async function POST(request: Request) {
   try {

@@ -16,9 +16,11 @@ export function MusicUploadForm() {
   };
 
   const onSubmit = (e: SubmitEvent<HTMLFormElement>) => {
+    const form = e.currentTarget;
+
     handleSubmit(e, () => {
+      form.reset();
       setPreview(null);
-      e.currentTarget.reset();
     });
   };
 
@@ -32,8 +34,18 @@ export function MusicUploadForm() {
       </p>
 
       <form onSubmit={onSubmit} className="space-y-4">
-        <FormInput id="title" label="Title" placeholder="Enter song title" />
-        <FormInput id="artist" label="Artist" placeholder="Enter artist name" />
+        <FormInput
+          required
+          id="title"
+          label="Title"
+          placeholder="Enter song title"
+        />
+        <FormInput
+          required
+          id="artist"
+          label="Artist"
+          placeholder="Enter artist name"
+        />
 
         {/* Cover Image Input */}
         <div>

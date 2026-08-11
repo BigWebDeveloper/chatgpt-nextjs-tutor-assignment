@@ -1,6 +1,23 @@
 "use client";
 
+import { useFormSubmit } from "@/app/hooks/useFormSubmit";
+import FormInput from "@/app/ui/FormInput";
+import { Link } from "lucide-react";
+import { SubmitEvent } from "react";
+
 const RegisterPage = () => {
+  const { handleSubmit, isLoading, error, success } =
+    useFormSubmit("/api/login");
+  const onSubmit = (e: SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const form = e.currentTarget;
+
+    handleSubmit(e, () => {
+      form.reset();
+    });
+  };
+
   return (
     <div className="flex items-center justify-center h-screen">
       <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-xl">
@@ -9,46 +26,49 @@ const RegisterPage = () => {
         <p className="mb-8 text-center text-gray-500">
           Sign in to your account
         </p>
+        <form onSubmit={onSubmit} className="space-y-3">
+          <FormInput
+            id="email"
+            type="email"
+            label="Email Address"
+            placeholder="Enter your email"
+            required
+          />
+          <FormInput
+            id="password"
+            type="password"
+            label="Password"
+            placeholder="Enter your password"
+            required
+          />
+          {error && (
+            <p className="rounded-md bg-red-50 p-3 text-sm text-red-600 dark:bg-red-950">
+              {error}
+            </p>
+          )}
 
-        <form className="space-y-5">
-          <div>
-            <label className="mb-2 block text-sm font-medium">
-              Email Address
-            </label>
-
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none transition focus:border-black"
-            />
-          </div>
-
-          <div>
-            <label className="mb-2 block text-sm font-medium">Password</label>
-
-            <input
-              type="password"
-              placeholder="Enter your password"
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none transition focus:border-black"
-            />
-          </div>
+          {success && (
+            <p className="rounded-md bg-green-50 p-3 text-sm text-green-600 dark:bg-green-950">
+              ✓ Login successfully!
+            </p>
+          )}
 
           <button
             type="submit"
-            className="w-full rounded-lg bg-black py-3 font-semibold text-white transition hover:bg-gray-800"
+            disabled={isLoading}
+            className="w-full rounded-lg bg-black py-3 font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            Login
+            {isLoading ? "Logging in..." : "Login"}{" "}
           </button>
         </form>
-
         <p className="mt-6 text-center text-sm text-gray-500">
           Don&#39;t have an account?{" "}
-          <a
+          <Link
             href="/register"
             className="font-semibold text-black hover:underline"
           >
             Create Account
-          </a>
+          </Link>
         </p>
       </div>
     </div>
