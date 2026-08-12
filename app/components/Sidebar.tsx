@@ -22,7 +22,7 @@ export default function Sidebar() {
         {/* Brand Logo */}
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3 px-2 pt-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-600 font-bold text-white">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-secondary font-bold text-white">
               B
             </div>
             <span className="text-lg font-bold tracking-tight dark:text-white/80 text-black">
@@ -46,7 +46,7 @@ export default function Sidebar() {
                 href={item.href}
                 className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
                   isActive
-                    ? "bg-indigo-600 text-white"
+                    ? "bg-secondary text-white"
                     : "text-black dark:text-white dark:hover:text-white/70 hover:text-black hover:bg-slate-800/10 dark:hover:bg-indigo-600/20"
                 }`}
               >

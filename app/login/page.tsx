@@ -2,10 +2,10 @@
 
 import { useFormSubmit } from "@/app/hooks/useFormSubmit";
 import FormInput from "@/app/ui/FormInput";
-import { Link } from "lucide-react";
+import Link from "next/link";
 import { SubmitEvent } from "react";
 
-const RegisterPage = () => {
+const LoginPage = () => {
   const { handleSubmit, isLoading, error, success } =
     useFormSubmit("/api/login");
   const onSubmit = (e: SubmitEvent<HTMLFormElement>) => {
@@ -56,7 +56,7 @@ const RegisterPage = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full rounded-lg bg-black py-3 font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
+            className="w-full rounded-lg bg-secondary py-3 font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isLoading ? "Logging in..." : "Login"}{" "}
           </button>
@@ -65,7 +65,7 @@ const RegisterPage = () => {
           Don&#39;t have an account?{" "}
           <Link
             href="/register"
-            className="font-semibold text-black hover:underline"
+            className="font-semibold cursor-pointer hover:underline"
           >
             Create Account
           </Link>
@@ -75,4 +75,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default LoginPage;

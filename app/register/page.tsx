@@ -2,8 +2,8 @@
 
 import { SubmitEvent, useState } from "react";
 import { useFormSubmit } from "@/app/hooks/useFormSubmit";
-import FormInput from "@/app/ui/FormInput";
-import { Link } from "lucide-react";
+import Link from "next/link";
+import FormInput from "../ui/FormInput";
 
 const RegisterPage = () => {
   const [password, setPassword] = useState("");
@@ -78,6 +78,20 @@ const RegisterPage = () => {
             }
             required
           />
+          <div className="w-full grid">
+            <label htmlFor="role" className="mb-2 block text-sm font-medium">
+              Role
+            </label>
+            <select
+              id="role"
+              defaultValue="user"
+              name="role"
+              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none transition focus:border-black"
+            >
+              <option value="admin">Admin</option>
+              <option value="user">User</option>
+            </select>
+          </div>
 
           {error && (
             <p className="rounded-md bg-red-50 p-3 text-sm text-red-600 dark:bg-red-950">
@@ -94,7 +108,7 @@ const RegisterPage = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full rounded-lg bg-black py-3 font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
+            className="w-full rounded-lg bg-secondary py-3 font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isLoading ? "Creating Account..." : "Create Account"}
           </button>

@@ -1,30 +1,20 @@
 import { connectDB } from "@/app/lib/mongodb";
-import jwt from "jsonwebtoken";
+import { authorize } from "@/app/lib/loginAuth";
 
 export async function GET(request: Request) {
-  const authHeader = request.headers.get("Authorization");
-  console.log(authHeader);
+  const user = authorize(request);
+
+  if (user.role !== "admin") {
+    return Response.json({ error: "Forbidden" }, { status: 403 });
+  }
   await connectDB();
 
-  if (!authHeader) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  const token = authHeader.replace("Bearer ", "");
-
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!);
-
-    const { role } = decoded;
-
-    if (role !== "admin") {
+    if (user.role !== "admin") {
       return Response.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    return Response.json(
-      { message: "Welcome!", user: decoded },
-      { status: 201 },
-    );
+    return Response.json({ message: "Welcome!", user: user }, { status: 201 });
   } catch {
     return Response.json(
       { error: "Invalid or expired token" },

@@ -9,7 +9,7 @@ if (!JWT_SECRET) {
 export interface AuthPayload {
   userId: string;
   email: string;
-  role?: string;
+  role?: "user" | "admin";
 }
 
 const config = {

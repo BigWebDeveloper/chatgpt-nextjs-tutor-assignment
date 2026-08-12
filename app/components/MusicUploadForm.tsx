@@ -49,9 +49,7 @@ export function MusicUploadForm() {
 
         {/* Cover Image Input */}
         <div>
-          <label className="mb-2 block text-sm font-medium dark:text-gray-300">
-            Cover Image
-          </label>
+          <label className="mb-2 block text-sm font-medium">Cover Image</label>
           <div className="relative">
             <input
               id="image"
@@ -95,7 +93,7 @@ export function MusicUploadForm() {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full rounded-lg bg-black py-3 font-semibold text-white transition hover:bg-gray-800"
+          className="w-full rounded-lg bg-secondary py-3 font-semibold text-white transition hover:bg-gray-800"
         >
           {isLoading ? "Uploading..." : "Upload Music"}
         </button>

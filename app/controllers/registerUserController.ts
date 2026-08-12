@@ -1,34 +1,34 @@
 import User from "@/app/models/User";
 import { connectDB } from "@/app/lib/mongodb";
+import { authVerify } from "../lib/zod/authVerify";
 import bcrypt from "bcryptjs";
+
 export async function registerUser(request: Request) {
   const formData = await request.formData();
+  const data = Object.fromEntries(formData.entries());
 
-  console.log("Request body:", Object.fromEntries(formData));
-  const { name, email, password, role } = Object.fromEntries(formData) as {
+  console.log("Request body:", data);
+
+  const { name, email, password, role } = data as {
     name: string;
     email: string;
     password: string;
     role: "user" | "admin";
   };
+  const result = authVerify(data);
 
-  console.log("Request body:", Object.fromEntries(formData));
-
-  const missing = ["name", "email", "password"].filter(
-    (field) => !formData.get(field),
-  );
-
-  if (missing.length > 0) {
+  if (!result.success) {
     return Response.json(
       {
-        error: "Bad Request",
-        message: `Missing fields: ${missing.join(", ")}`,
+        error: result.error,
       },
       {
         status: 400,
       },
     );
   }
+
+  console.log("Request body:", Object.fromEntries(formData));
 
   await connectDB();
 

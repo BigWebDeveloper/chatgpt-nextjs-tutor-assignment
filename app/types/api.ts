@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import jwt from "jsonwebtoken";
 
 export interface iUser extends Document {
   name: string;
@@ -32,8 +33,12 @@ export type GlobalWithMongoose = typeof globalThis & {
   mongoose?: MongooseCache;
 };
 
-interface JWTPayload {
+export interface JWTPayload {
   userId: string;
   email: string;
+  role?: string;
+}
+
+export interface CustomJwtPayload extends jwt.JwtPayload {
   role?: string;
 }

@@ -2,6 +2,7 @@ import { connectDB } from "@/app/lib/mongodb";
 import User from "@/app/models/User";
 import bcrypt from "bcryptjs";
 import { generateToken } from "@/app/lib/jwt";
+import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
 export async function loginUser(request: Request) {
   const formData = await request.formData();
@@ -40,6 +41,5 @@ export async function loginUser(request: Request) {
     email: user.email,
     role: user.role,
   });
-
   return Response.json({ message: "Login successful", token }, { status: 200 });
 }
