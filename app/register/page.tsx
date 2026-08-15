@@ -2,6 +2,7 @@
 
 import { SubmitEvent, useState } from "react";
 import { useFormSubmit } from "@/app/hooks/useFormSubmit";
+import PasswordInput from "../ui/PasswordInput";
 import Link from "next/link";
 import FormInput from "../ui/FormInput";
 
@@ -54,9 +55,8 @@ const RegisterPage = () => {
             required
           />
 
-          <FormInput
+          <PasswordInput
             id="password"
-            type="password"
             label="Password"
             placeholder="Enter your password"
             value={password}
@@ -64,9 +64,8 @@ const RegisterPage = () => {
             required
           />
 
-          <FormInput
+          <PasswordInput
             id="confirmPassword"
-            type="password"
             label="Confirm Password"
             placeholder="Confirm your password"
             value={confirmPassword}

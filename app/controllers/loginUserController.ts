@@ -2,7 +2,7 @@ import { connectDB } from "@/app/lib/mongodb";
 import User from "@/app/models/User";
 import bcrypt from "bcryptjs";
 import { generateToken } from "@/app/lib/jwt";
-import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
+import { cookies } from "next/headers";
 
 export async function loginUser(request: Request) {
   const formData = await request.formData();
@@ -41,5 +41,16 @@ export async function loginUser(request: Request) {
     email: user.email,
     role: user.role,
   });
+
+  const cookieStore = await cookies();
+
+  cookieStore.set("accessToken", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: 60 * 60 * 24 * 7,
+    path: "/",
+  });
+
   return Response.json({ message: "Login successful", token }, { status: 200 });
 }

@@ -22,3 +22,7 @@ export function generateToken(payload: AuthPayload): string {
     expiresIn: config.jwtExpiresIn,
   });
 }
+
+export function verifyToken(token: string) {
+  return jwt.verify(token, config.jwtSecret);
+}

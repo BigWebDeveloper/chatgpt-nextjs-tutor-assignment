@@ -2,6 +2,7 @@
 
 import { useFormSubmit } from "@/app/hooks/useFormSubmit";
 import FormInput from "@/app/ui/FormInput";
+import PasswordInput from "../ui/PasswordInput";
 import Link from "next/link";
 import { SubmitEvent } from "react";
 
@@ -34,9 +35,8 @@ const LoginPage = () => {
             placeholder="Enter your email"
             required
           />
-          <FormInput
+          <PasswordInput
             id="password"
-            type="password"
             label="Password"
             placeholder="Enter your password"
             required
