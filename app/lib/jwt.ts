@@ -23,6 +23,19 @@ export function generateToken(payload: AuthPayload): string {
   });
 }
 
-export function verifyToken(token: string) {
-  return jwt.verify(token, config.jwtSecret);
+export function verifyToken(token: string): AuthPayload {
+  const decoded = jwt.verify(token, config.jwtSecret);
+
+  if (typeof decoded === "string") {
+    throw new Error("Invalid token payload");
+  }
+
+  if (
+    typeof decoded.userId !== "string" ||
+    (decoded.role !== "admin" && decoded.role !== "user")
+  ) {
+    throw new Error("Invalid token payload");
+  }
+
+  return decoded as AuthPayload;
 }

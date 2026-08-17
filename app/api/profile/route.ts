@@ -1,41 +1,23 @@
 import { connectDB } from "@/app/lib/mongodb";
-import { cookies } from "next/headers";
-import { verifyToken } from "@/app/lib/jwt";
-// import { authorize } from "@/app/lib/loginAuth";
+import { requireAdmin } from "@/app/lib/auth";
 
 export async function GET() {
-  // const user = authorize(request);
-
-  // if (user.role !== "admin") {
-  //   return Response.json({ error: "Forbidden" }, { status: 403 });
-  // }
   await connectDB();
 
   try {
-    const cookieStore = await cookies();
+    const { user, error } = await requireAdmin();
 
-    const token = cookieStore.get("accessToken")?.value;
-
-    if (!token) {
-      return Response.json(
-        {
-          error: "Unauthorized",
-        },
-        {
-          status: 401,
-        },
-      );
+    if (error === "unauthorized") {
+      return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const payload = verifyToken(token);
-    // if (user.role !== "admin") {
-    //   return Response.json({ error: "Forbidden" }, { status: 403 });
-    // }
+    if (error === "forbidden") {
+      return Response.json({ error: "Forbidden" }, { status: 403 });
+    }
 
-    return Response.json(
-      { message: "Welcome!", user: payload },
-      { status: 201 },
-    );
+    console.log(user?.role);
+
+    return Response.json({ message: "Welcome!", user: user }, { status: 201 });
   } catch {
     return Response.json(
       { error: "Invalid or expired token" },

@@ -1,15 +1,21 @@
 import { connectDB } from "@/app/lib/mongodb";
 import User from "@/app/models/User";
-import { authorize } from "@/app/lib/loginAuth";
+import { requireAdmin } from "@/app/lib/auth";
 
-export async function GET(request: Request) {
+export async function GET() {
+  await connectDB();
   try {
-    const user = authorize(request);
+    const { user, error } = await requireAdmin();
 
-    if (user.role !== "admin") {
-      return Response.json({ error: "Forbidden" }, { status: 403 });
+    if (error === "unauthorized") {
+      return Response.json({ error: "Not Authorized" }, { status: 401 });
     }
 
+    if (error === "forbidden") {
+      return Response.json({ error: "Not an Admin" }, { status: 403 });
+    }
+
+    console.log(user?.role);
     await connectDB();
 
     const allUser = await User.find();
