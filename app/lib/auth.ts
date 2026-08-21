@@ -17,6 +17,10 @@ export async function getAuthenticatedUser() {
   }
 }
 
+export function hasRole(userRole: string, allowedRoles: string[]) {
+  return allowedRoles.includes(userRole);
+}
+
 export async function requireAdmin() {
   const user = await getAuthenticatedUser();
 
@@ -27,7 +31,7 @@ export async function requireAdmin() {
     };
   }
 
-  if (user.role !== "admin") {
+  if (!hasRole(user.role as string, ["admin"])) {
     return {
       user: null,
       error: "forbidden",

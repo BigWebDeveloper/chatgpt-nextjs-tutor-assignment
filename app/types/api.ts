@@ -39,6 +39,13 @@ export interface JWTPayload {
   role?: string;
 }
 
+export interface RegisterUserInput {
+  name: string;
+  email: string;
+  password: string;
+  role: "user" | "admin";
+}
+
 export interface CustomJwtPayload extends jwt.JwtPayload {
   role?: string;
 }

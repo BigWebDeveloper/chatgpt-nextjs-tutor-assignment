@@ -22,7 +22,7 @@ export async function GET() {
 
     return Response.json(
       {
-        message: "Welcome!",
+        message: "Admin access granted",
         users: allUser,
       },
       { status: 200 },

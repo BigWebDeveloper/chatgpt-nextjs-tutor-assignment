@@ -5,6 +5,7 @@ export async function GET() {
   await connectDB();
 
   const product = await Product.find();
+
   if (!product) {
     return Response.json({ error: "Product is empty" }, { status: 400 });
   }

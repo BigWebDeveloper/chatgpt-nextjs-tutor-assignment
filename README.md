@@ -43,3 +43,33 @@ app/
 ├── constants/
 │
 └── models/
+
+
+
+
+
+
+
+
+                 CLIENT
+                   │
+                   ▼
+              NEXT.JS API
+                   │
+                   ▼
+              MIDDLEWARE
+                   │
+                   ▼
+            AUTHENTICATION
+                   │
+                   ▼
+              VALIDATION
+                   │
+                   ▼
+              SERVICE LAYER
+                   │
+                   ▼
+               MONGOOSE
+                   │
+                   ▼
+                MONGODB

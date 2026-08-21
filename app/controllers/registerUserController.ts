@@ -2,8 +2,9 @@ import User from "@/app/models/User";
 import { connectDB } from "@/app/lib/mongodb";
 import { authVerify } from "../lib/zod/authVerify";
 import bcrypt from "bcryptjs";
+import { registerUser } from "../services/auth.service";
 
-export async function registerUser(request: Request) {
+export async function registerT(request: Request) {
   const formData = await request.formData();
   const data = Object.fromEntries(formData.entries());
 
@@ -15,6 +16,7 @@ export async function registerUser(request: Request) {
     password: string;
     role: "user" | "admin";
   };
+
   const result = authVerify(data);
 
   if (!result.success) {
@@ -32,27 +34,29 @@ export async function registerUser(request: Request) {
 
   await connectDB();
 
-  const existingUser = await User.findOne({ email });
+  const user = await registerUser(name, email, password, role);
 
-  if (existingUser) {
-    return Response.json(
-      {
-        error: "Email already exists",
-      },
-      {
-        status: 409,
-      },
-    );
-  }
+  // const existingUser = await User.findOne({ email });
 
-  const hashedPassword = await bcrypt.hash(password, 10);
+  // if (existingUser) {
+  //   return Response.json(
+  //     {
+  //       error: "Email already exists",
+  //     },
+  //     {
+  //       status: 409,
+  //     },
+  //   );
+  // }
 
-  const user = await User.create({
-    name,
-    email,
-    password: hashedPassword,
-    role,
-  });
+  // const hashedPassword = await bcrypt.hash(password, 10);
+
+  // const user = await User.create({
+  //   name,
+  //   email,
+  //   password: hashedPassword,
+  //   role,
+  // });
 
   return Response.json(
     {
