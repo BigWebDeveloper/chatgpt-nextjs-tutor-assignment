@@ -1,6 +1,9 @@
 import { connectDB } from "@/app/lib/mongodb";
 import User from "@/app/models/User";
 import { requireAdmin } from "@/app/lib/auth";
+import { get } from "http";
+import { Router } from "lucide-react";
+import { log } from "console";
 
 export async function GET() {
   await connectDB();
