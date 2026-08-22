@@ -23,6 +23,12 @@ export interface iBooks extends Document {
   year: number;
   genre: string;
 }
+export interface iOrder extends Document {
+  user: string;
+  items: string;
+  total: number;
+  status: string;
+}
 
 export type MongooseCache = {
   conn: typeof mongoose | null;

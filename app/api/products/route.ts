@@ -5,12 +5,22 @@ export async function GET() {
   await connectDB();
 
   const product = await Product.find();
+  const total = await Product.countDocuments();
 
   if (!product) {
     return Response.json({ error: "Product is empty" }, { status: 400 });
   }
 
-  return Response.json(product, { status: 200 });
+  return Response.json(
+    {
+      success: true,
+      data: product,
+      pagination: {
+        total: total,
+      },
+    },
+    { status: 200 },
+  );
 }
 
 export async function POST(request: Request) {

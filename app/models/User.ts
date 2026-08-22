@@ -20,7 +20,7 @@ const userSchema = new Schema<iUser>(
     password: {
       type: String,
       required: [true, "Password is required"],
-      minlength: 6,
+      minlength: 8,
     },
 
     role: {

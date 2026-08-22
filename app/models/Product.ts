@@ -16,6 +16,7 @@ const productSchema = new Schema(
       type: "String",
       required: true,
       trim: true,
+      index: true,
     },
     description: {
       type: "String",
@@ -26,6 +27,12 @@ const productSchema = new Schema(
       type: "Boolean",
       required: true,
       default: true,
+      require: true,
+    },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
   },
   { timestamps: true },
