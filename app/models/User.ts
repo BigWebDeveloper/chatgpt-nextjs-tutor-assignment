@@ -7,6 +7,8 @@ const userSchema = new Schema<iUser>(
       type: String,
       required: [true, "Name is required"],
       trim: true,
+      minlength: [2, "Name must be at least 2 characters"],
+      maxlength: [50, "Name cannot exceed 50 characters"],
     },
 
     email: {
@@ -15,6 +17,7 @@ const userSchema = new Schema<iUser>(
       unique: true,
       lowercase: true,
       trim: true,
+      index: true,
     },
 
     password: {
@@ -27,6 +30,7 @@ const userSchema = new Schema<iUser>(
       type: String,
       enum: ["user", "admin"],
       default: "user",
+      index: true,
     },
   },
   {

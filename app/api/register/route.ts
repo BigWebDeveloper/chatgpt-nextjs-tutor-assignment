@@ -6,6 +6,7 @@ import { registerUser } from "@/app/services/auth.service";
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
+
     const data = Object.fromEntries(formData.entries());
 
     // console.log("Request body:", data);
@@ -31,6 +32,7 @@ export async function POST(request: Request) {
     }
 
     console.log("Request body:", Object.fromEntries(formData));
+    console.log(data);
 
     await connectDB();
 

@@ -1,6 +1,7 @@
 import User from "@/app/models/User";
 import { connectDB } from "@/app/lib/mongodb";
 import mongoose from "mongoose";
+import Order from "@/app/models/order";
 
 // export async function GET(
 //   request: Request,
@@ -21,7 +22,11 @@ export async function GET(
     return Response.json({ error: "Invalid User ID format" }, { status: 400 });
   }
 
-  const user = await User.findById(id);
+  // const user = await User.findById(id);
+
+  const user = await Order.findById({
+    user: id,
+  });
 
   if (!user) {
     return Response.json(

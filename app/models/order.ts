@@ -1,25 +1,43 @@
 import mongoose, { Schema, Model } from "mongoose";
-import { iOrder } from "../types/api";
 
-const orderSchema = new Schema(
+export type OrderStatus =
+  | "pending"
+  | "paid"
+  | "processing"
+  | "shipped"
+  | "delivered"
+  | "cancelled";
+
+export interface IOrder extends Document {
+  user: mongoose.Types.ObjectId;
+  items: mongoose.Types.ObjectId[];
+  total: number;
+  status: OrderStatus;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const orderSchema = new Schema<IOrder>(
   {
     user: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User",
-      required: true,
+      required: [true, "User is required"],
       index: true,
     },
 
-    items: {
-      type: [mongoose.Schema.Types.ObjectId],
-      ref: "OrderItem",
-      required: true,
-    },
+    items: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "OrderItem",
+        required: true,
+      },
+    ],
 
     total: {
       type: Number,
-      required: true,
-      min: 0,
+      required: [true, "Order total is required"],
+      min: [0, "Order total cannot be negative"],
     },
 
     status: {
@@ -33,7 +51,6 @@ const orderSchema = new Schema(
         "cancelled",
       ],
       default: "pending",
-      required: true,
       index: true,
     },
   },
@@ -41,7 +58,13 @@ const orderSchema = new Schema(
     timestamps: true,
   },
 );
-const Book: Model<iOrder> =
-  mongoose.models.Order || mongoose.model<iOrder>("Order", orderSchema);
 
-export default Book;
+orderSchema.index({
+  user: 1,
+  createdAt: -1,
+});
+
+const Order: Model<IOrder> =
+  mongoose.models.Order || mongoose.model<IOrder>("Order", orderSchema);
+
+export default Order;
