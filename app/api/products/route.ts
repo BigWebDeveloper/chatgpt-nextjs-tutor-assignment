@@ -27,8 +27,8 @@ export async function POST(request: Request) {
   await connectDB();
   const body = await request.json();
 
-  console.log(body);
-
+  const { name, description, price, category, image, inStock, createdBy } =
+    body;
   if (Array.isArray(body)) {
     const requiredFields = [
       "name",
@@ -71,12 +71,16 @@ export async function POST(request: Request) {
     );
   }
 
+  console.log("not an array");
+
   const missing = [
     "name",
+    "description",
     "price",
     "category",
-    "description",
+    "image",
     "inStock",
+    "createdBy",
   ].filter((field) => !body[field]);
 
   if (missing.length > 0) {

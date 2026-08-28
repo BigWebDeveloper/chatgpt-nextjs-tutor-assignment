@@ -1,5 +1,3 @@
-import React from "react";
-
 const page = () => {
   return (
     <div className="flex content-center flex-col dark:text-white items-center justify-center gap-3 h-full">

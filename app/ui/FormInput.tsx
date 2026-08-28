@@ -17,7 +17,7 @@ const FormInput = ({
 }: FormInputProps) => {
   return (
     <div>
-      <label htmlFor={id} className="mb-2 block text-sm font-medium">
+      <label htmlFor={id} className="mb-2 block text-sm font-medium ">
         {label}
       </label>
 
