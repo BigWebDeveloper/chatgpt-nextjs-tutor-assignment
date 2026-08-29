@@ -1,5 +1,6 @@
 export async function POST(request: Request) {
   const body = await request.json();
+  console.log("active");
 
   if (!body.name || !body.email) {
     return Response.json(
