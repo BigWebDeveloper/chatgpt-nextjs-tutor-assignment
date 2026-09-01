@@ -9,41 +9,41 @@ export interface IProduct extends Document {
   inStock: boolean;
   createdBy: mongoose.Types.ObjectId;
   createdAt: Date;
-  UpdatedAt: Date;
+  updatedAt: Date;
 }
 
 const productSchema = new Schema<IProduct>(
   {
     name: {
-      type: "String",
+      type: String,
       required: [true, "Product name is required"],
       trim: true,
       maxlength: [150, "Product name cannot exceed 150 characters"],
     },
     price: {
-      type: "Number",
+      type: Number,
       required: [true, "Product price is required"],
       min: [0, "Price cannot be negetive"],
     },
     category: {
-      type: "String",
+      type: String,
       required: [true, "Product category is required"],
       trim: true,
-      lowewrcase: true,
+      lowercase: true,
       index: true,
     },
     description: {
-      type: "String",
+      type: String,
       required: [true, "Product descritption is required"],
       trim: true,
     },
     image: {
-      type: "string",
+      type: String,
       required: [true, "Product image is required"],
       trim: true,
     },
     inStock: {
-      type: "Boolean",
+      type: Boolean,
       required: true,
       default: true,
     },

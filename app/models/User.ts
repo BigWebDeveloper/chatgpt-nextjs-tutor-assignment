@@ -1,7 +1,15 @@
-import mongoose, { Schema, Model } from "mongoose";
-import { iUser } from "../types/api";
+import mongoose, { Schema, Model, Document } from "mongoose";
 
-const userSchema = new Schema<iUser>(
+export interface IUser extends Document {
+  name: string;
+  email: string;
+  password: string;
+  role: "user" | "admin";
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const userSchema = new Schema<IUser>(
   {
     name: {
       type: String,
@@ -37,7 +45,7 @@ const userSchema = new Schema<iUser>(
     timestamps: true,
   },
 );
-const User: Model<iUser> =
-  mongoose.models.User || mongoose.model<iUser>("User", userSchema);
+const User: Model<IUser> =
+  mongoose.models.User || mongoose.model<IUser>("User", userSchema);
 
 export default User;

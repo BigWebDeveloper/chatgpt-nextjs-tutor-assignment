@@ -83,9 +83,6 @@ export async function POST(request: Request) {
     await connectDB();
     const body = await request.json();
 
-    const { name, description, price, category, image, inStock, createdBy } =
-      body;
-
     if (Array.isArray(body)) {
       const requiredFields = [
         "name",
@@ -151,15 +148,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const product = await Product.create(
-      name,
-      description,
-      price,
-      category,
-      image,
-      inStock,
-      createdBy,
-    );
+    const product = await Product.create(body);
 
     return Response.json(
       {

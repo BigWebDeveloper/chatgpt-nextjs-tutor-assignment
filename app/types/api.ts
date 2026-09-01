@@ -1,15 +1,6 @@
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 
-export interface iUser extends Document {
-  name: string;
-  email: string;
-  password: string;
-  role: "user" | "admin";
-  createdAt: Date;
-  updatedAt: Date;
-}
-
 export interface iSong extends Document {
   title: string;
   artist: string;
