@@ -11,7 +11,7 @@ const RegisterPage = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const { handleSubmit, isLoading, error, success } =
-    useFormSubmit("/api/register");
+    useFormSubmit("/api/auth/register");
 
   const passwordsMatch = password === confirmPassword && confirmPassword !== "";
 

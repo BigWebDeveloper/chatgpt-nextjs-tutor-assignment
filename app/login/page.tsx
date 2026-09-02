@@ -8,7 +8,7 @@ import { SubmitEvent } from "react";
 
 const LoginPage = () => {
   const { handleSubmit, isLoading, error, success } =
-    useFormSubmit("/api/login");
+    useFormSubmit("/api/auth/login");
   const onSubmit = (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 

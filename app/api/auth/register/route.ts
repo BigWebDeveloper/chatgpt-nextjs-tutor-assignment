@@ -31,9 +31,6 @@ export async function POST(request: Request) {
       );
     }
 
-    console.log("Request body:", Object.fromEntries(formData));
-    console.log(data);
-
     await connectDB();
 
     const user = await registerUser(name, email, password, role);

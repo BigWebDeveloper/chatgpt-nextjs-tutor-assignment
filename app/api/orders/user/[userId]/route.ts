@@ -10,6 +10,7 @@ export async function GET(
   try {
     await connectDB();
     const { userId } = await params;
+    console.log(userId);
 
     if (!mongoose.Types.ObjectId.isValid(userId)) {
       return Response.json(

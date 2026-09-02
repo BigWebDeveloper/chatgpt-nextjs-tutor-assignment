@@ -3,8 +3,27 @@ import User from "@/app/models/User";
 import bcrypt from "bcryptjs";
 import { generateToken } from "@/app/lib/jwt";
 import { cookies } from "next/headers";
+import { rateLimit } from "@/app/lib/rate-limit";
 
 export async function loginUser(request: Request) {
+  // 1. Rate limiting
+  const ip =
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+
+  const limit = rateLimit(`login:${ip}`, 5, 60_000);
+
+  if (!limit.success) {
+    return Response.json(
+      {
+        success: false,
+        message: "Too many login attempts. Try again later.",
+      },
+      {
+        status: 429,
+      },
+    );
+  }
+
   const formData = await request.formData();
   const { email, password } = Object.fromEntries(formData) as {
     email: string;
