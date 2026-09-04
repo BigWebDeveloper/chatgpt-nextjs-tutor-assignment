@@ -15,6 +15,7 @@ export async function POST(request: Request) {
       name: string;
       email: string;
       password: string;
+      confirmPassword: string;
       role: "user" | "admin";
     };
 

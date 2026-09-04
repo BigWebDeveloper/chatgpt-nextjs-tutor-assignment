@@ -2,7 +2,6 @@ import User from "@/app/models/User";
 import { connectDB } from "@/app/lib/mongodb";
 import { requireAdmin, requireAdminAndUserAccess } from "@/app/lib/auth";
 import mongoose from "mongoose";
-import Order from "@/app/models/order";
 import { updateUserVerify } from "@/app/lib/zod/authVerify";
 import { handleError } from "@/app/lib/error-handler";
 
@@ -31,9 +30,7 @@ export async function GET(
 
   // const user = await User.findById(id);
 
-  const user = await Order.findById({
-    user: id,
-  });
+  const user = await User.findById(id).select("-password");
 
   if (!user) {
     return Response.json(

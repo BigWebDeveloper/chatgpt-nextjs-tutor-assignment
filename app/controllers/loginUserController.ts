@@ -30,6 +30,7 @@ export async function loginUser(request: Request) {
     password: string;
   };
 
+  console.log(email, password);
   const missing = ["email", "password"].filter((field) => !formData.get(field));
 
   if (missing.length > 0) {
