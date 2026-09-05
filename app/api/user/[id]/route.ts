@@ -1,6 +1,6 @@
 import User from "@/app/models/User";
 import { connectDB } from "@/app/lib/mongodb";
-import { requireAdmin, requireAdminAndUserAccess } from "@/app/lib/auth";
+import { requireAdmin, requireVerifyIdandAdminAccess } from "@/app/lib/auth";
 import mongoose from "mongoose";
 import { updateUserVerify } from "@/app/lib/zod/authVerify";
 import { handleError } from "@/app/lib/error-handler";
@@ -111,7 +111,7 @@ export async function PATCH(request: Request, context: RouteContext) {
 export async function DELETE(request: Request, context: RouteContext) {
   try {
     const { id } = await context.params;
-    const { error } = await requireAdmin();
+    const { error } = await requireVerifyIdandAdminAccess(id);
 
     if (error === "unauthorized") {
       return Response.json({ error: "Unauthorized" }, { status: 401 });

@@ -24,6 +24,7 @@ export function hasRole(userRole: string, allowedRoles: string[]) {
 
 export async function requireAdmin() {
   const user = await getAuthenticatedUser();
+  console.log(user?.role);
 
   if (!user) {
     return {
@@ -32,7 +33,7 @@ export async function requireAdmin() {
     };
   }
 
-  if (hasRole(user.role as string, ["admin"])) {
+  if (!hasRole(user.role as string, ["admin"])) {
     return {
       user: null,
       error: "forbidden",
@@ -49,7 +50,7 @@ type AccessResult =
   | { user: null; error: "unauthorized" | "forbidden" }
   | { user: AuthPayload; error: null };
 
-export async function requireAdminAndUserAccess(
+export async function requireVerifyIdandAdminAccess(
   id: string,
 ): Promise<AccessResult> {
   const user = await getAuthenticatedUser();

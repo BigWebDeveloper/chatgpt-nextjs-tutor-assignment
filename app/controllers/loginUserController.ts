@@ -47,13 +47,19 @@ export async function loginUser(request: Request) {
   const user = await User.findOne({ email });
 
   if (!user) {
-    return Response.json({ error: "Invalid email" }, { status: 401 });
+    return Response.json(
+      { error: "Invalid email or password" },
+      { status: 401 },
+    );
   }
 
   const passwordMatch = await bcrypt.compare(password, user.password);
 
   if (!passwordMatch) {
-    return Response.json({ error: "Incorrect password" }, { status: 401 });
+    return Response.json(
+      { error: "Invalid email or password" },
+      { status: 401 },
+    );
   }
 
   const token = generateToken({
