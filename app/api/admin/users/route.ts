@@ -1,21 +1,14 @@
 import { connectDB } from "@/app/lib/mongodb";
 import User from "@/app/models/User";
 import { requireAdmin } from "@/app/lib/auth";
-import { get } from "http";
-import { Router } from "lucide-react";
-import { log } from "console";
 
 export async function GET() {
   await connectDB();
   try {
     const { user, error } = await requireAdmin();
 
-    if (error === "unauthorized") {
-      return Response.json({ error: "Not Authorized" }, { status: 401 });
-    }
-
-    if (error === "forbidden") {
-      return Response.json({ error: "Not an Admin" }, { status: 403 });
+    if (error) {
+      return error;
     }
 
     console.log(user?.role);

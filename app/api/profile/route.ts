@@ -7,12 +7,8 @@ export async function GET() {
   try {
     const { user, error } = await requireAdmin();
 
-    if (error === "unauthorized") {
-      return Response.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    if (error === "forbidden") {
-      return Response.json({ error: "Forbidden" }, { status: 403 });
+    if (error) {
+      return error;
     }
 
     console.log(user?.role);

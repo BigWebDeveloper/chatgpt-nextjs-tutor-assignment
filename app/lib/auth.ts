@@ -29,14 +29,14 @@ export async function requireAdmin() {
   if (!user) {
     return {
       user: null,
-      error: "unauthorized",
+      error: Response.json({ error: "Unauthorized" }, { status: 401 }),
     };
   }
 
   if (!hasRole(user.role as string, ["admin"])) {
     return {
       user: null,
-      error: "forbidden",
+      error: Response.json({ error: "Forbidden" }, { status: 403 }),
     };
   }
 
@@ -47,7 +47,7 @@ export async function requireAdmin() {
 }
 
 type AccessResult =
-  | { user: null; error: "unauthorized" | "forbidden" }
+  | { user: null; error: Response }
   | { user: AuthPayload; error: null };
 
 export async function requireVerifyIdandAdminAccess(
@@ -59,7 +59,7 @@ export async function requireVerifyIdandAdminAccess(
   if (!user) {
     return {
       user: null,
-      error: "unauthorized",
+      error: Response.json({ error: "Unauthorized" }, { status: 401 }),
     };
   }
 
@@ -67,7 +67,10 @@ export async function requireVerifyIdandAdminAccess(
   // and is not an admin
 
   if (user.userId !== id && user.role !== "admin") {
-    return { user: null, error: "forbidden" };
+    return {
+      user: null,
+      error: Response.json({ error: "Forbidden" }, { status: 403 }),
+    };
   }
   return {
     user,

@@ -23,12 +23,9 @@ export async function GET(
 ) {
   await connectDB();
   const { id } = await params;
-
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return Response.json({ error: "Invalid User ID format" }, { status: 400 });
   }
-
-  // const user = await User.findById(id);
 
   const user = await User.findById(id).select("-password");
 
@@ -48,17 +45,22 @@ export async function GET(
 export async function PATCH(request: Request, context: RouteContext) {
   const { id } = await context.params;
   try {
-    const { error } = await requireAdminAndUserAccess(id);
+    const { error } = await requireAdmin();
 
-    if (error === "unauthorized") {
-      return Response.json({ error: "Unauthorized" }, { status: 401 });
+    if (error) {
+      return error;
     }
 
-    if (error === "forbidden") {
-      return Response.json({ error: "Forbidden" }, { status: 403 });
-    }
+    // if (error === "unauthorized") {
+    //   return Response.json({ error: "Unauthorized" }, { status: 401 });
+    // }
+
+    // if (error === "forbidden") {
+    //   return Response.json({ error: "Forbidden" }, { status: 403 });
+    // }
 
     const body = await request.json();
+    console.log("Fetching user with ID:", id);
 
     const result = updateUserVerify(body);
 
@@ -113,12 +115,8 @@ export async function DELETE(request: Request, context: RouteContext) {
     const { id } = await context.params;
     const { error } = await requireVerifyIdandAdminAccess(id);
 
-    if (error === "unauthorized") {
-      return Response.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    if (error === "forbidden") {
-      return Response.json({ error: "Forbidden" }, { status: 403 });
+    if (error) {
+      return error;
     }
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
