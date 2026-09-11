@@ -9,11 +9,19 @@ export function authVerify(data: unknown) {
 
     return {
       success: false,
-      error: firstError,
+      error: Response.json(
+        {
+          error: firstError,
+        },
+        {
+          status: 400,
+        },
+      ),
     };
   }
 
   return {
+    error: null,
     success: true,
     data: result.data,
   };
@@ -27,7 +35,14 @@ export function updateUserVerify(data: unknown) {
 
     return {
       success: false,
-      error: firstError,
+      error: Response.json(
+        {
+          error: firstError,
+        },
+        {
+          status: 400,
+        },
+      ),
     };
   }
 

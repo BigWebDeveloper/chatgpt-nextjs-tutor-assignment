@@ -5,7 +5,7 @@ import { generateToken } from "@/app/lib/jwt";
 import { cookies } from "next/headers";
 import { rateLimit } from "@/app/lib/rate-limit";
 
-export async function loginUser(request: Request) {
+export async function loginUserController(request: Request) {
   // 1. Rate limiting
   const ip =
     request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";

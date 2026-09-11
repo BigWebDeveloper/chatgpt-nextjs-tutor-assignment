@@ -1,14 +1,30 @@
 import User from "@/app/models/User";
 import { connectDB } from "@/app/lib/mongodb";
 import { authVerify } from "../lib/zod/authVerify";
-import bcrypt from "bcryptjs";
-import { registerUser } from "../services/auth.service";
+import { hashedPassword } from "../lib/bcrypt";
 
-export async function registerT(request: Request) {
-  const formData = await request.formData();
-  const data = Object.fromEntries(formData.entries());
+export async function registerUserController(request: Request) {
+  const contentType = request.headers.get("content-type");
+  let data: Record<string, unknown>;
 
-  console.log("Request body:", data);
+  // JSON
+  if (contentType?.includes("application/json")) {
+    data = await request.json();
+  }
+
+  // multipart/form-data
+  else if (contentType?.includes("multipart/form-data")) {
+    const formData = await request.formData();
+    data = Object.fromEntries(formData.entries());
+  }
+
+  // Unsupported body
+  else {
+    return Response.json(
+      { success: false, error: "Unsupported content type" },
+      { status: 415 },
+    );
+  }
 
   const { name, email, password, role } = data as {
     name: string;
@@ -19,44 +35,29 @@ export async function registerT(request: Request) {
 
   const result = authVerify(data);
 
-  if (!result.success) {
-    return Response.json(
-      {
-        error: result.error,
-      },
-      {
-        status: 400,
-      },
-    );
+  if (result.error) {
+    return result.error;
   }
-
-  console.log("Request body:", Object.fromEntries(formData));
 
   await connectDB();
 
-  const user = await registerUser(name, email, password, role);
+  const existingUser = await User.findOne({ email });
 
-  // const existingUser = await User.findOne({ email });
+  if (!existingUser) {
+    return Response.json(
+      { error: "Invalid email or password" },
+      { status: 401 },
+    );
+  }
 
-  // if (existingUser) {
-  //   return Response.json(
-  //     {
-  //       error: "Email already exists",
-  //     },
-  //     {
-  //       status: 409,
-  //     },
-  //   );
-  // }
+  const passwordHash = await hashedPassword(password);
 
-  // const hashedPassword = await bcrypt.hash(password, 10);
-
-  // const user = await User.create({
-  //   name,
-  //   email,
-  //   password: hashedPassword,
-  //   role,
-  // });
+  const user = await User.create({
+    name,
+    email,
+    password: passwordHash,
+    role,
+  });
 
   return Response.json(
     {

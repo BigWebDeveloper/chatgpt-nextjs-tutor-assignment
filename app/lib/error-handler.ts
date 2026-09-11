@@ -45,7 +45,7 @@ export function handleError(error: unknown) {
   ) {
     return Response.json(
       {
-        error: "Duplicate Value",
+        error: "You have an account with this email already.",
         message: "Email already exists",
       },
       {

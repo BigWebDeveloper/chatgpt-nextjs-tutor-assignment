@@ -1,9 +1,9 @@
 import { handleError } from "@/app/lib/error-handler";
-import { loginUser } from "@/app/controllers/loginUserController";
+import { loginUserController } from "@/app/controllers/loginUserController";
 
 export async function POST(request: Request) {
   try {
-    return await loginUser(request);
+    return await loginUserController(request);
   } catch (error) {
     return handleError(error);
   }
