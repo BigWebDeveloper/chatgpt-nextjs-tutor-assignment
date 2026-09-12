@@ -1,9 +1,16 @@
 import Product from "@/app/models/Product";
 import { connectDB } from "@/app/lib/mongodb";
 import { handleError } from "@/app/lib/error-handler";
+import { requireAdmin } from "@/app/lib/auth";
 
 export async function GET(request: Request) {
   try {
+    const { error } = await requireAdmin();
+
+    if (error) {
+      return error;
+    }
+
     await connectDB();
 
     const { searchParams } = new URL(request.url);

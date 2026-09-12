@@ -1,6 +1,6 @@
 import User from "@/app/models/User";
 import { connectDB } from "@/app/lib/mongodb";
-import { requireAdmin, requireVerifyIdandAdminAccess } from "@/app/lib/auth";
+import { requireVerifyIdandAdminAccess } from "@/app/lib/auth";
 import mongoose from "mongoose";
 import { updateUserVerify } from "@/app/lib/zod/authVerify";
 import { handleError } from "@/app/lib/error-handler";
@@ -45,34 +45,19 @@ export async function GET(
 export async function PATCH(request: Request, context: RouteContext) {
   const { id } = await context.params;
   try {
-    const { error } = await requireAdmin();
+    const { error, user } = await requireVerifyIdandAdminAccess(id);
 
     if (error) {
       return error;
     }
-
-    // if (error === "unauthorized") {
-    //   return Response.json({ error: "Unauthorized" }, { status: 401 });
-    // }
-
-    // if (error === "forbidden") {
-    //   return Response.json({ error: "Forbidden" }, { status: 403 });
-    // }
 
     const body = await request.json();
     console.log("Fetching user with ID:", id);
 
     const result = updateUserVerify(body);
 
-    if (!result.success) {
-      return Response.json(
-        {
-          error: result.error,
-        },
-        {
-          status: 400,
-        },
-      );
+    if (result.error) {
+      return result.error;
     }
 
     await connectDB();
@@ -84,6 +69,10 @@ export async function PATCH(request: Request, context: RouteContext) {
       );
     }
 
+    // 🚨 Prevent normal users from changing role
+    if (user.role !== "admin") {
+      delete result.data.role;
+    }
     const updatedUser = await User.findByIdAndUpdate(id, result.data, {
       returnDocument: "after",
       runValidators: true,
