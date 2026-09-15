@@ -1,6 +1,7 @@
 import mongoose, { Document, Model, Schema } from "mongoose";
 
 export interface IOrderItem extends Document {
+  _id: mongoose.Types.ObjectId;
   order: mongoose.Types.ObjectId;
   product: mongoose.Types.ObjectId;
   quantity: number;
@@ -11,11 +12,17 @@ export interface IOrderItem extends Document {
 
 const orderItemSchema = new Schema<IOrderItem>(
   {
-    order: {
-      type: Schema.Types.ObjectId,
-      ref: "Order",
-      required: [true, "Order is required"],
-      index: true,
+    //   order: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: "Order",
+    //     required: [true, "Order is required"],
+    //     index: true,
+    //   },
+
+    quantity: {
+      type: Number,
+      required: [true, "Quantity is required"],
+      min: [1, "Quantity must be a positive number"],
     },
 
     product: {

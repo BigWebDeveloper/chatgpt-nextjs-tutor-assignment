@@ -4,10 +4,7 @@ import { requireVerifyIdandAdminAccess } from "@/app/lib/auth";
 import mongoose from "mongoose";
 import { updateUserVerify } from "@/app/lib/zod/authVerify";
 import { handleError } from "@/app/lib/error-handler";
-
-type RouteContext = {
-  params: Promise<{ id: string }>;
-};
+import { RouteContext } from "@/app/types/api";
 
 // export async function GET(
 //   request: Request,
@@ -17,12 +14,9 @@ type RouteContext = {
 //   return Response.json({ message: "User found", id: id });
 // }
 
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function GET(request: Request, context: RouteContext) {
   await connectDB();
-  const { id } = await params;
+  const { id } = await context.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return Response.json({ error: "Invalid User ID format" }, { status: 400 });
   }

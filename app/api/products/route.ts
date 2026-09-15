@@ -87,6 +87,11 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    const { error } = await requireAdmin();
+
+    if (error) {
+      return error;
+    }
     await connectDB();
     const body = await request.json();
 

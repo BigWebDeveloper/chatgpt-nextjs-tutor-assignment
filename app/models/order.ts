@@ -9,6 +9,7 @@ export type OrderStatus =
   | "cancelled";
 
 export interface IOrder extends Document {
+  _id: mongoose.Types.ObjectId;
   user: mongoose.Types.ObjectId;
   items: mongoose.Types.ObjectId[];
   total: number;

@@ -7,6 +7,7 @@ export interface IProduct extends Document {
   category: string;
   image: string;
   inStock: boolean;
+  stock: number;
   createdBy: mongoose.Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
@@ -23,7 +24,7 @@ const productSchema = new Schema<IProduct>(
     price: {
       type: Number,
       required: [true, "Product price is required"],
-      min: [0, "Price cannot be negetive"],
+      min: [0, "Price cannot be negative"],
     },
     category: {
       type: String,
@@ -44,8 +45,13 @@ const productSchema = new Schema<IProduct>(
     },
     inStock: {
       type: Boolean,
-      required: true,
       default: true,
+    },
+    stock: {
+      type: Number,
+      required: true,
+      min: [0, "Stock cannot be negative"],
+      default: 0,
     },
     createdBy: {
       type: Schema.Types.ObjectId,

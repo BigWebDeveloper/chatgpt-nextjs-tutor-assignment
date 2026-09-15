@@ -55,3 +55,7 @@ export interface RegisterUserInput {
 export interface CustomJwtPayload extends jwt.JwtPayload {
   role?: string;
 }
+
+export type RouteContext = {
+  params: Promise<{ id: string }>;
+};

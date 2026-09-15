@@ -1,6 +1,7 @@
 import Product from "@/app/models/Product";
 import { connectDB } from "@/app/lib/mongodb";
 import mongoose from "mongoose";
+import { requireAdmin } from "@/app/lib/auth";
 
 export async function GET(
   request: Request,
@@ -31,6 +32,11 @@ export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
+  const { error } = await requireAdmin();
+
+  if (error) {
+    return error;
+  }
   await connectDB();
   const { id } = await params;
   const body = await request.json();
